@@ -68,11 +68,14 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         closeai: {
-          blue: "#1A1F2C",
-          teal: "#33C3F0",
-          cyan: "#0EA5E9",
-          lightGray: "#F6F7F9",
-          dark: "#222222",
+          // Updated color scheme to match green/black theme
+          blue: "#121212", // Dark almost black
+          teal: "#4ADE80", // Vibrant green
+          cyan: "#22C55E", // Secondary green
+          lightGray: "#1A1A1A", // Dark gray background
+          dark: "#000000", // Pure black
+          accent: "#34D399", // Accent green
+          lightAccent: "#A7F3D0", // Light accent green
         },
       },
       borderRadius: {
@@ -128,6 +131,10 @@ export default {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "shimmer": "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%)",
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
       },
     },
   },

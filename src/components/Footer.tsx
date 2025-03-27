@@ -4,13 +4,13 @@ import { Shield, Mail, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer id="contact" className="bg-closeai-blue py-16 border-t border-white/10">
+    <footer id="contact" className="bg-black py-16 border-t border-closeai-teal/10">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Shield className="w-8 h-8 text-closeai-teal" />
-              <span className="font-bold text-2xl text-white">closeAI</span>
+              <span className="font-bold text-2xl text-white font-display">closeAI</span>
             </div>
             
             <p className="text-white/70 mb-6">
@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Explore</h3>
+            <h3 className="text-lg font-semibold text-white mb-6 font-display">Explore</h3>
             <ul className="space-y-4">
               {[
                 { name: "About Us", href: "#about" },
@@ -49,7 +49,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Stay Updated</h3>
+            <h3 className="text-lg font-semibold text-white mb-6 font-display">Stay Updated</h3>
             <p className="text-white/70 mb-4">
               Subscribe to our newsletter for the latest updates on AI security and our progress.
             </p>
@@ -58,11 +58,11 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Your email"
-                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-closeai-teal/50"
+                className="flex-1 px-4 py-2 bg-black/50 border border-closeai-teal/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-closeai-teal/50"
               />
               <button 
                 type="submit" 
-                className="px-4 py-2 bg-closeai-teal text-white rounded-lg hover:bg-closeai-teal/90 transition-colors"
+                className="px-4 py-2 bg-closeai-teal text-black rounded-lg hover:bg-closeai-teal/90 transition-colors font-display"
               >
                 Subscribe
               </button>
@@ -70,7 +70,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-white/50">
+        <div className="border-t border-closeai-teal/10 mt-12 pt-8 text-center text-white/50">
           <p>© {new Date().getFullYear()} closeAI Technologies. All rights reserved.</p>
           <p className="mt-2 text-sm">
             Proudly building in India, for India and the world.

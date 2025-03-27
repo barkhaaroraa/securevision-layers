@@ -1,9 +1,60 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Shield, Zap, ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cursorDotRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // Handle cursor effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (cursorDotRef.current) {
+      // Create multiple cursor dots with different sizes and opacities
+      cursorDotRef.current.innerHTML = ''; // Clear previous dots
+      
+      // Large background glow
+      const largeDot = document.createElement('div');
+      largeDot.className = 'cursor-dot-effect';
+      largeDot.style.width = '800px';
+      largeDot.style.height = '800px';
+      largeDot.style.opacity = '0.3';
+      largeDot.style.left = `${mousePosition.x}px`;
+      largeDot.style.top = `${mousePosition.y}px`;
+      cursorDotRef.current.appendChild(largeDot);
+      
+      // Medium glow
+      const mediumDot = document.createElement('div');
+      mediumDot.className = 'cursor-dot-effect';
+      mediumDot.style.width = '400px';
+      mediumDot.style.height = '400px';
+      mediumDot.style.opacity = '0.4';
+      mediumDot.style.left = `${mousePosition.x}px`;
+      mediumDot.style.top = `${mousePosition.y}px`;
+      cursorDotRef.current.appendChild(mediumDot);
+      
+      // Small intense glow
+      const smallDot = document.createElement('div');
+      smallDot.className = 'cursor-dot-effect';
+      smallDot.style.width = '100px';
+      smallDot.style.height = '100px';
+      smallDot.style.opacity = '0.6';
+      smallDot.style.left = `${mousePosition.x}px`;
+      smallDot.style.top = `${mousePosition.y}px`;
+      cursorDotRef.current.appendChild(smallDot);
+    }
+  }, [mousePosition]);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,10 +85,10 @@ const HeroSection = () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
-        this.color = `rgba(51, 195, 240, ${Math.random() * 0.5})`;
+        this.size = Math.random() * 2 + 0.5; // Smaller particles
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+        this.color = `rgba(74, 222, 128, ${Math.random() * 0.5})`; // Green particles
       }
       
       update() {
@@ -63,7 +114,7 @@ const HeroSection = () => {
     }
     
     const init = () => {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) { // More particles
         particles.push(new Particle());
       }
     };
@@ -90,23 +141,24 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center bg-closeai-blue overflow-hidden">
+    <section className="relative min-h-screen flex items-center bg-black overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0" />
+      <div ref={cursorDotRef} className="cursor-dot"></div>
       
-      <div className="absolute inset-0 bg-gradient-to-b from-closeai-blue/90 to-closeai-blue z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black z-10" />
       
       <div className="container mx-auto px-4 z-20 pt-20">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 space-y-6 text-center md:text-left">
             <div 
-              className="blue-pill mb-4 opacity-0 animate-fadeIn" 
+              className="green-pill mb-4 opacity-0 animate-fadeIn" 
               style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
             >
               <Zap className="w-4 h-4 mr-1" /> AI Safety for India
             </div>
             
             <h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight opacity-0 animate-fadeIn" 
+              className="text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight opacity-0 animate-fadeIn font-display tracking-tight" 
               style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}
             >
               Securing AI <br/>
@@ -141,7 +193,7 @@ const HeroSection = () => {
               
               <div className="security-circle">
                 <div className="security-layer" style={{ transform: 'translateZ(0px)', animationDelay: '0s' }}>
-                  <div className="w-24 h-24 rounded-full bg-closeai-blue/20 flex items-center justify-center backdrop-blur-md">
+                  <div className="w-24 h-24 rounded-full bg-black/60 flex items-center justify-center backdrop-blur-md border border-closeai-teal/20">
                     <Shield className="w-12 h-12 text-closeai-teal" />
                   </div>
                 </div>

@@ -4,16 +4,16 @@ import { Shield, ShieldAlert, ShieldCheck, Users } from 'lucide-react';
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-24 bg-white">
+    <section id="about" className="py-24 bg-closeai-lightGray">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="blue-pill mb-4">
+          <div className="green-pill mb-4">
             <Shield className="w-4 h-4 mr-1" /> Our Vision
           </div>
           
           <h2 className="section-heading">Why AI Safety Matters for India</h2>
           
-          <p className="text-lg text-closeai-blue/80 mb-6">
+          <p className="text-lg text-white/80 mb-6 font-light">
             As AI becomes increasingly integrated into various sectors in India, ensuring its safety, 
             reliability, and ethical use is paramount for our collective future.
           </p>
@@ -42,11 +42,11 @@ const AboutSection = () => {
               className="glass-card p-8 rounded-xl opacity-0 animate-slideUp"
               style={{ animationDelay: `${0.2 * index}s`, animationFillMode: 'forwards' }}
             >
-              <div className="w-16 h-16 rounded-xl bg-closeai-teal/10 flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-xl bg-closeai-teal/10 flex items-center justify-center mb-4 border border-closeai-teal/20">
                 {item.icon}
               </div>
-              <h3 className="text-xl font-semibold text-closeai-blue mb-3">{item.title}</h3>
-              <p className="text-closeai-blue/70">{item.description}</p>
+              <h3 className="text-xl font-semibold text-white mb-3 font-display">{item.title}</h3>
+              <p className="text-white/70">{item.description}</p>
             </div>
           ))}
         </div>
