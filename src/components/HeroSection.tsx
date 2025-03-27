@@ -5,6 +5,7 @@ import { Shield, Zap, ArrowRight } from 'lucide-react';
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
+  const particlesContainerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   // Handle cursor effect
@@ -17,6 +18,41 @@ const HeroSection = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
+  }, []);
+
+  // Create background particles
+  useEffect(() => {
+    if (particlesContainerRef.current) {
+      const container = particlesContainerRef.current;
+      container.innerHTML = '';
+      
+      const particleCount = 15;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random size between 20px and 100px
+        const size = Math.random() * 80 + 20;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random opacity
+        particle.style.opacity = `${Math.random() * 0.3 + 0.1}`;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 10 + 8;
+        const delay = Math.random() * 5;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(particle);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -144,6 +180,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center bg-black overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0" />
       <div ref={cursorDotRef} className="cursor-dot"></div>
+      <div ref={particlesContainerRef} className="particles-container"></div>
       
       <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black z-10" />
       

@@ -26,7 +26,9 @@ const Index = () => {
         effect.style.width = `${(i + 1) * 300}px`;
         effect.style.height = `${(i + 1) * 300}px`;
         effect.style.opacity = `${0.15 - i * 0.05}`;
-        dot.appendChild(effect);
+        if (dot instanceof HTMLElement) {
+          dot.appendChild(effect);
+        }
       }
     });
 
@@ -42,7 +44,9 @@ const Index = () => {
       const x = mousePosition.x * speed;
       const y = mousePosition.y * speed;
       
-      effect.style.transform = `translate(${x}px, ${y}px)`;
+      if (effect instanceof HTMLElement) {
+        effect.style.transform = `translate(${x}px, ${y}px)`;
+      }
     });
   }, [mousePosition]);
 
