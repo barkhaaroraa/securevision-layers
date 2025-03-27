@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center space-x-2 group">
           <Shield className="w-8 h-8 text-closeai-teal transition-transform duration-300 group-hover:rotate-12" />
-          <span className="font-bold text-xl text-white font-display tracking-wide">closeAI</span>
+          <span className="font-bold text-xl text-white font-display tracking-wide">close ai tech</span>
         </a>
         
         <div className="hidden md:flex items-center space-x-8">

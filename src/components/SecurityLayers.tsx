@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Shield, 
   ShieldCheck, 
@@ -40,96 +40,149 @@ const securityLayers = [
 
 const SecurityLayers = () => {
   const [activeLayer, setActiveLayer] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const cardRefs = useRef([]);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (cardRefs.current.length === 0) return;
+      
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      let closestIndex = 0;
+      let closestDistance = Math.abs(cardRefs.current[0]?.getBoundingClientRect().top - window.innerHeight / 2);
+      
+      cardRefs.current.forEach((ref, index) => {
+        if (!ref) return;
+        
+        const distance = Math.abs(ref.getBoundingClientRect().top - window.innerHeight / 2);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+      
+      setActiveLayer(closestIndex);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   
   return (
-    <section id="security" className="py-24 bg-closeai-lightGray">
-      <div className="container mx-auto px-4">
+    <section 
+      id="security" 
+      className="py-24 bg-closeai-lightGray relative"
+      ref={sectionRef}
+    >
+      <div className="cursor-dot absolute inset-0 z-0"></div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="blue-pill mb-4">
+          <div className="green-pill mb-4">
             <Shield className="w-4 h-4 mr-1" /> Our Technology
           </div>
           
-          <h2 className="section-heading">Multi-layered Security Framework</h2>
+          <h2 className="section-heading text-white">Multi-layered Security Framework</h2>
           
-          <p className="text-lg text-closeai-blue/80">
+          <p className="text-lg text-white/80">
             Our comprehensive approach to AI safety incorporates multiple specialized 
             security layers, each addressing different aspects of the AI pipeline.
           </p>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-1/3">
-            {securityLayers.map((layer, index) => (
+        <div className="space-y-16">
+          {securityLayers.map((layer, index) => (
+            <div 
+              key={index}
+              ref={el => cardRefs.current[index] = el}
+              className={`flashcard w-full max-w-3xl mx-auto transition-all duration-700 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+              }`}
+              style={{ 
+                transitionDelay: `${isVisible ? index * 0.2 : 0}s`,
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
+            >
               <div 
-                key={index}
-                className={`${
+                className={`glass-card rounded-xl p-8 border border-closeai-teal/30 transform transition-all duration-500 ${
                   activeLayer === index 
-                    ? 'bg-white shadow-lg border-l-4 border-closeai-teal' 
-                    : 'bg-white/50 hover:bg-white/80'
-                } p-6 mb-4 rounded-lg cursor-pointer transition-all duration-300`}
-                onClick={() => setActiveLayer(index)}
+                    ? 'scale-105 shadow-lg shadow-closeai-teal/10 border-closeai-teal/50' 
+                    : 'scale-100'
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className={`w-12 h-12 rounded-lg ${activeLayer === index ? 'bg-closeai-teal text-white' : 'bg-closeai-teal/10 text-closeai-teal'} flex items-center justify-center mr-4`}>
-                      {layer.icon}
-                    </div>
-                    <h3 className="font-semibold text-closeai-blue">{layer.title}</h3>
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-closeai-teal text-black flex items-center justify-center">
+                    {layer.icon}
                   </div>
-                  <ChevronRight className={`${activeLayer === index ? 'text-closeai-teal' : 'text-closeai-blue/30'}`} />
+                  
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-semibold text-white mb-3 font-display">{layer.title}</h3>
+                    <p className="text-white/80">{layer.description}</p>
+                    
+                    <div className="mt-6 bg-black/40 p-5 rounded-lg border border-closeai-teal/10">
+                      <h4 className="font-medium text-white mb-3 font-display">How it works</h4>
+                      <ul className="space-y-3">
+                        {[1, 2, 3].map((item) => (
+                          <li key={item} className="flex items-start">
+                            <div className="w-6 h-6 rounded-full bg-closeai-teal/10 text-closeai-teal flex items-center justify-center mt-0.5 mr-3">
+                              {item}
+                            </div>
+                            <p className="text-white/80">
+                              {index === 0 && item === 1 && "Continuous monitoring of model outputs across demographic dimensions"}
+                              {index === 0 && item === 2 && "Statistical analysis to identify disproportionate impacts"}
+                              {index === 0 && item === 3 && "Automated retraining with balanced datasets to mitigate detected biases"}
+                              
+                              {index === 1 && item === 1 && "Data minimization principles applied to all processing"}
+                              {index === 1 && item === 2 && "Encryption of sensitive information with Indian-specific privacy considerations"}
+                              {index === 1 && item === 3 && "Compliance with Personal Data Protection frameworks"}
+                              
+                              {index === 2 && item === 1 && "Real-time analysis of inputs in all major Indian languages"}
+                              {index === 2 && item === 2 && "Detection of potential jailbreaking attempts or harmful prompts"}
+                              {index === 2 && item === 3 && "Context-aware filtering system that maintains legitimate use cases"}
+                              
+                              {index === 3 && item === 1 && "Runtime monitoring of AI system behavior and resource usage"}
+                              {index === 3 && item === 2 && "Anomaly detection using baseline behavioral models"}
+                              {index === 3 && item === 3 && "Automated failsafes when unexpected behavior is detected"}
+                              
+                              {index === 4 && item === 1 && "Multi-stage content evaluation for safety and cultural appropriateness"}
+                              {index === 4 && item === 2 && "Classification of outputs based on potential harm categories"}
+                              {index === 4 && item === 3 && "Human-in-the-loop verification for high-risk scenarios"}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="lg:w-2/3 glass-card p-8 rounded-xl">
-            <div className="opacity-0 animate-fadeIn" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
-              <div className="flex items-center mb-6">
-                <div className="w-16 h-16 rounded-xl bg-closeai-teal text-white flex items-center justify-center mr-4">
-                  {securityLayers[activeLayer].icon}
-                </div>
-                <h3 className="text-2xl font-semibold text-closeai-blue">{securityLayers[activeLayer].title}</h3>
-              </div>
-              
-              <p className="text-lg text-closeai-blue/80 mb-8">
-                {securityLayers[activeLayer].description}
-              </p>
-              
-              <div className="bg-closeai-blue/5 p-6 rounded-lg border border-closeai-teal/10">
-                <h4 className="font-medium text-closeai-blue mb-4">How it works</h4>
-                <ul className="space-y-3">
-                  {[1, 2, 3].map((item) => (
-                    <li key={item} className="flex items-start">
-                      <div className="w-6 h-6 rounded-full bg-closeai-teal/10 text-closeai-teal flex items-center justify-center mt-0.5 mr-3">
-                        {item}
-                      </div>
-                      <p className="text-closeai-blue/80">
-                        {activeLayer === 0 && item === 1 && "Continuous monitoring of model outputs across demographic dimensions"}
-                        {activeLayer === 0 && item === 2 && "Statistical analysis to identify disproportionate impacts"}
-                        {activeLayer === 0 && item === 3 && "Automated retraining with balanced datasets to mitigate detected biases"}
-                        
-                        {activeLayer === 1 && item === 1 && "Data minimization principles applied to all processing"}
-                        {activeLayer === 1 && item === 2 && "Encryption of sensitive information with Indian-specific privacy considerations"}
-                        {activeLayer === 1 && item === 3 && "Compliance with Personal Data Protection frameworks"}
-                        
-                        {activeLayer === 2 && item === 1 && "Real-time analysis of inputs in all major Indian languages"}
-                        {activeLayer === 2 && item === 2 && "Detection of potential jailbreaking attempts or harmful prompts"}
-                        {activeLayer === 2 && item === 3 && "Context-aware filtering system that maintains legitimate use cases"}
-                        
-                        {activeLayer === 3 && item === 1 && "Runtime monitoring of AI system behavior and resource usage"}
-                        {activeLayer === 3 && item === 2 && "Anomaly detection using baseline behavioral models"}
-                        {activeLayer === 3 && item === 3 && "Automated failsafes when unexpected behavior is detected"}
-                        
-                        {activeLayer === 4 && item === 1 && "Multi-stage content evaluation for safety and cultural appropriateness"}
-                        {activeLayer === 4 && item === 2 && "Classification of outputs based on potential harm categories"}
-                        {activeLayer === 4 && item === 3 && "Human-in-the-loop verification for high-risk scenarios"}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

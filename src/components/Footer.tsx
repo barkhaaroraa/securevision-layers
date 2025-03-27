@@ -10,15 +10,15 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Shield className="w-8 h-8 text-closeai-teal" />
-              <span className="font-bold text-2xl text-white font-display">closeAI</span>
+              <span className="font-bold text-2xl text-white font-display">close ai tech</span>
             </div>
             
-            <p className="text-white/70 mb-6">
+            <p className="text-white mb-6">
               Building the next generation of AI security layers 
               to make artificial intelligence safe and beneficial for all Indians.
             </p>
             
-            <div className="flex items-center text-white/70">
+            <div className="flex items-center text-white">
               <Mail className="w-5 h-5 mr-2" />
               <a href="mailto:contact@closeai.tech" className="hover:text-closeai-teal transition-colors">
                 contact@closeai.tech
@@ -38,7 +38,7 @@ const Footer = () => {
                 <li key={index}>
                   <a 
                     href={link.href} 
-                    className="text-white/70 hover:text-closeai-teal transition-colors flex items-center group"
+                    className="text-white hover:text-closeai-teal transition-colors flex items-center group"
                   >
                     <ArrowRight className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                     {link.name}
@@ -50,7 +50,7 @@ const Footer = () => {
           
           <div>
             <h3 className="text-lg font-semibold text-white mb-6 font-display">Stay Updated</h3>
-            <p className="text-white/70 mb-4">
+            <p className="text-white mb-4">
               Subscribe to our newsletter for the latest updates on AI security and our progress.
             </p>
             
@@ -70,8 +70,8 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-closeai-teal/10 mt-12 pt-8 text-center text-white/50">
-          <p>© {new Date().getFullYear()} closeAI Technologies. All rights reserved.</p>
+        <div className="border-t border-closeai-teal/10 mt-12 pt-8 text-center text-white">
+          <p>© {new Date().getFullYear()} close ai tech. All rights reserved.</p>
           <p className="mt-2 text-sm">
             Proudly building in India, for India and the world.
           </p>
