@@ -50,9 +50,7 @@ const Waitlist = () => {
     <section id="waitlist" className="py-24 bg-closeai-blue">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="blue-pill mb-4 bg-blue-900/50 text-closeai-teal">
-            <Send className="w-4 h-4 mr-1" /> Join Us
-          </div>
+
           
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get Early Access</h2>
           
